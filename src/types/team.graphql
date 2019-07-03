@@ -1,0 +1,16 @@
+type Team {
+  id: ID!
+  name: String!
+  owner: ID!
+  members: [User!]!
+  channels: [Channel!]!
+}
+
+type Query {
+  teams: [Team!]!
+}
+
+type Mutation {
+  createTeam(name: String!): Team!
+  addTeamMember(email: String!, teamId: ID!): Boolean!
+}
