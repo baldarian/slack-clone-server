@@ -16,7 +16,7 @@ export default {
   },
   Mutation: {
     createTeam: (parent, args, { models, user }) => {
-      return models.Team.create({ ...args, owner: user.id });
+      return models.Team.create({ ...args }, { userId: user.id });
     },
     addTeamMember: async (
       parent,
@@ -24,9 +24,11 @@ export default {
       { models, user: _user }
     ) => {
       const user = await models.User.findOne({ where: { id: _user.id } });
-      const team = await models.Team.findOne({ where: { id: teamId } });
+      const member = await models.Member.findOne({
+        where: { teamId, userId: user.id }
+      });
 
-      if (team.owner !== user.id) {
+      if (!member.isAdmin) {
         throw new Error('You are not allowed to add a member to this team');
       }
 
@@ -40,15 +42,15 @@ export default {
         throw new Error("You can't invite yourself");
       }
 
-      const member = await models.Member.findOne({
-        where: { userId: userToAdd.id, teamId: team.id }
+      const memberToAdd = await models.Member.findOne({
+        where: { userId: userToAdd.id, teamId }
       });
 
-      if (member) {
+      if (memberToAdd) {
         throw new Error('User is already invited to this team');
       }
 
-      await models.Member.create({ userId: userToAdd.id, teamId: team.id });
+      await models.Member.create({ userId: userToAdd.id, teamId });
 
       return true;
     }
@@ -56,6 +58,13 @@ export default {
   Team: {
     channels: (parent, args, { models }) => {
       return models.Channel.findAll({ where: { teamId: parent.id } });
+    },
+    isAdmin: async (parent, args, { models, user }) => {
+      const { isAdmin } = await models.Member.findOne({
+        where: { teamId: parent.id, userId: user.id }
+      });
+
+      return isAdmin;
     }
   }
 };

@@ -7,20 +7,20 @@ export default function(sequelize, DataTypes) {
     }
   });
 
-  Team.afterCreate(team => {
+  Team.afterCreate((team, options) => {
     return Promise.all([
       models.Channel.create({ teamId: team.id, name: 'general' }),
-      models.Member.create({ userId: team.owner, teamId: team.id })
+      models.Member.create({
+        isAdmin: true,
+        userId: options.userId,
+        teamId: team.id
+      })
     ]);
   });
 
   Team.associate = ({ User, Member }) => {
     Team.belongsToMany(User, {
       through: Member
-    });
-
-    Team.belongsTo(User, {
-      foreignKey: 'owner'
     });
   };
 
