@@ -41,10 +41,6 @@ models.sequelize.sync({ force }).then(() => {
         onConnect: async connectionParams => {
           const user = await mapTokenToUser(connectionParams.accessToken);
 
-          if (!user) {
-            throw new Error('no auth token was provided');
-          }
-
           return {
             models,
             user
