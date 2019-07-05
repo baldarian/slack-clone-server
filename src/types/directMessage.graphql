@@ -1,0 +1,14 @@
+type DirectMessage {
+  id: ID!
+  text: String!
+  sender: User!
+  receiver: User!
+}
+
+type Query {
+  directMessages(receiverId: ID!): [DirectMessage!]!
+}
+
+type Mutation {
+  createDirectMessage(receiverId: ID!, text: String!): DirectMessage!
+}
