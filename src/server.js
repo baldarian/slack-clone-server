@@ -26,7 +26,7 @@ apolloServer.applyMiddleware({ app, path: '/' });
 
 const server = createServer(app);
 
-const force = false;
+const force = true;
 
 models.sequelize.sync({ force }).then(() => {
   server.listen(8010, () => {

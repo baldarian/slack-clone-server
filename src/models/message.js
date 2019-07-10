@@ -5,10 +5,12 @@ export default function(sequelize, DataTypes) {
     }
   });
 
-  Message.associate = ({ Channel, User }) => {
-    Message.belongsTo(Channel);
+  Message.associate = ({ User, Conversation }) => {
+    Message.belongsTo(User, {
+      foreignKey: 'sender_id'
+    });
 
-    Message.belongsTo(User);
+    Message.belongsTo(Conversation);
   };
 
   return Message;

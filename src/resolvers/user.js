@@ -31,9 +31,7 @@ export default {
       };
     },
     register: async (parent, args, { models }) => {
-      const user = await models.User.create(args);
-
-      await models.Team.create({ name: 'My Team' }, { userId: user.id });
+      await models.User.create(args);
 
       return true;
     }

@@ -1,4 +1,5 @@
 import bcrypt from 'bcryptjs';
+import models from './';
 
 export default function(sequelize, DataTypes) {
   const User = sequelize.define('user', {
@@ -36,6 +37,10 @@ export default function(sequelize, DataTypes) {
 
   User.afterValidate(async user => {
     user.password = await bcrypt.hash(user.password, 12);
+  });
+
+  User.afterCreate(async user => {
+    await models.Team.create({ name: 'My Team' }, { userId: user.id });
   });
 
   User.associate = ({ Team, Channel, Member }) => {
