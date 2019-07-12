@@ -1,10 +1,9 @@
 type Channel {
   id: ID!
   name: String!
-  public: Boolean!
   conversation: Conversation!
 }
 
 type Mutation {
-  createChannel(teamId: ID!, name: String!, public: Boolean = false): Channel!
+  createChannel(teamId: ID!, name: String!): Channel!
 }
