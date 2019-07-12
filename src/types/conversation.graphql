@@ -1,8 +1,8 @@
 type Conversation {
   id: ID!
-  firstUserId: ID!
-  secondUserId: ID!
-  channelId: ID!
+  firstUserId: ID
+  secondUserId: ID
+  channelId: ID
 }
 
 type Query {

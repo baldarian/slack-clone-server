@@ -29,7 +29,7 @@ const server = createServer(app);
 const force = false;
 
 models.sequelize.sync({ force }).then(() => {
-  server.listen(8011, () => {
+  server.listen(8030, () => {
     // eslint-disable-next-line
     console.log(`Server is ready`);
 

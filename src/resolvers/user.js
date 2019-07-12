@@ -35,5 +35,17 @@ export default {
 
       return true;
     }
+  },
+  User: {
+    conversation: async (parent, args, { models, user }) => {
+      const { Op } = models.Sequelize;
+
+      return models.Conversation.findOne({
+        where: {
+          firstUserId: { [Op.or]: [user.id, parent.id] },
+          secondUserId: { [Op.or]: [user.id, parent.id] }
+        }
+      });
+    }
   }
 };

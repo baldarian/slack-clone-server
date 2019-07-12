@@ -59,10 +59,19 @@ export default {
     channels: (parent, args, { models }) => {
       return models.Channel.findAll({ where: { teamId: parent.id } });
     },
-    members: (parent, args, { models }) => {
-      return models.User.findAll({
-        include: { model: models.Group, through: { attributes: [] } }
-      });
+    members: (parent, args, { models, user }) => {
+      return models.sequelize.query(
+        `
+        SELECT * FROM "users"
+        INNER JOIN members
+        ON members.user_id = users.id
+        AND members.user_id != :userId
+        AND members.team_id = :teamId`,
+        {
+          replacements: { teamId: parent.id, userId: user.id },
+          model: models.User
+        }
+      );
     },
     isAdmin: async (parent, args, { models, user }) => {
       const { isAdmin } = await models.Member.findOne({

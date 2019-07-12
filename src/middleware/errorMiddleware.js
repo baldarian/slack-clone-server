@@ -6,6 +6,8 @@ const errorMiddleware = async (resolve, root, args, context, info) => {
     result = await resolve(root, args, context, info);
     return result;
   } catch (e) {
+    console.log(e);
+
     if (e instanceof context.models.Sequelize.ValidationError) {
       const errors = e.errors.map(x => ({ path: x.path, message: x.message }));
 

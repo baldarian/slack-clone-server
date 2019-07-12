@@ -39,13 +39,9 @@ export default function(sequelize, DataTypes) {
     user.password = await bcrypt.hash(user.password, 12);
   });
 
-  User.associate = ({ Team, Channel, Member }) => {
+  User.associate = ({ Team, Member }) => {
     User.belongsToMany(Team, {
       through: Member
-    });
-
-    User.belongsToMany(Channel, {
-      through: 'channel_member'
     });
   };
 

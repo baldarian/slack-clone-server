@@ -11,12 +11,8 @@ export default function(sequelize, DataTypes) {
     await models.Conversation.create({ channelId: channel.id });
   });
 
-  Channel.associate = ({ Team, User }) => {
+  Channel.associate = ({ Team }) => {
     Channel.belongsTo(Team);
-
-    Channel.belongsToMany(User, {
-      through: 'channel_member'
-    });
   };
 
   return Channel;

@@ -15,7 +15,9 @@ export default {
   },
   Channel: {
     conversation: async (parent, args, { models }) => {
-      return models.Conversation.findOne({ where: { channelId: parent.id } });
+      return models.Conversation.findOne({
+        where: { channelId: parent.id }
+      });
     }
   }
 };
