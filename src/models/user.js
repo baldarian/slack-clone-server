@@ -39,10 +39,6 @@ export default function(sequelize, DataTypes) {
     user.password = await bcrypt.hash(user.password, 12);
   });
 
-  User.afterCreate(async user => {
-    await models.Team.create({ name: 'My Team' }, { userId: user.id });
-  });
-
   User.associate = ({ Team, Channel, Member }) => {
     User.belongsToMany(Team, {
       through: Member

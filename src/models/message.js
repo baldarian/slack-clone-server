@@ -7,7 +7,10 @@ export default function(sequelize, DataTypes) {
 
   Message.associate = ({ User, Conversation }) => {
     Message.belongsTo(User, {
-      foreignKey: 'sender_id'
+      foreignKey: {
+        field: 'sender_id',
+        name: 'senderId'
+      }
     });
 
     Message.belongsTo(Conversation);

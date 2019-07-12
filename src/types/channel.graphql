@@ -2,8 +2,7 @@ type Channel {
   id: ID!
   name: String!
   public: Boolean!
-  messages: [Message!]!
-  users: [User!]!
+  conversation: Conversation!
 }
 
 type Mutation {

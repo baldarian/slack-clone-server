@@ -6,9 +6,5 @@ export default function(sequelize, DataTypes) {
     }
   });
 
-  Member.afterCreate(async member => {
-    await models.Conversation.create({ channelId: member.id });
-  });
-
   return Member;
 }

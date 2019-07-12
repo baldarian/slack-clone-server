@@ -11,7 +11,7 @@ export default {
     createMessage: async (parent, args, { models, user }) => {
       const message = await models.Message.create({
         ...args,
-        userId: user.id
+        senderId: user.id
       });
 
       pubsub.publish(MESSAGE_ADDED, { messageAdded: message.dataValues });
@@ -20,11 +20,15 @@ export default {
     }
   },
   Message: {
-    user: (parent, args, { models }) => {
-      return models.User.findOne({ where: { id: parent.userId } });
+    conversation: (parent, args, { models }) => {
+      return models.Conversation.findOne({
+        where: { id: parent.conversationId }
+      });
     },
-    channel: (parent, args, { models }) => {
-      return models.Channel.findOne({ where: { id: parent.channelId } });
+    sender: (parent, args, { models }) => {
+      return models.User.findOne({
+        where: { id: parent.senderId }
+      });
     }
   },
   Subscription: {
@@ -32,7 +36,9 @@ export default {
       subscribe: withFilter(
         () => pubsub.asyncIterator(MESSAGE_ADDED),
         (payload, args) => {
-          return payload.messageAdded.channelId === Number(args.channelId);
+          return (
+            payload.messageAdded.conversationId === Number(args.conversationId)
+          );
         }
       )
     }

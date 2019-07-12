@@ -1,19 +1,19 @@
 type Message {
   id: ID!
   text: String!
-  user: User!
-  channel: Channel!
   createdAt: DateTime!
+  sender: User!
+  conversation: Conversation!
 }
 
 type Query {
-  messages(channelId: ID!): [Message!]!
+  messages(conversationId: ID!): [Message!]!
 }
 
 type Mutation {
-  createMessage(channelId: ID!, text: String!): Message!
+  createMessage(conversationId: ID!, text: String!): Message!
 }
 
 type Subscription {
-  messageAdded(channelId: ID!): Message!
+  messageAdded(conversationId: ID!): Message!
 }

@@ -1,0 +1,10 @@
+type Conversation {
+  id: ID!
+  firstUserId: ID!
+  secondUserId: ID!
+  channelId: ID!
+}
+
+type Query {
+  conversation(id: ID!): Conversation
+}

@@ -3,15 +3,24 @@ export default function(sequelize) {
 
   Conversation.associate = ({ Channel, User }) => {
     Conversation.belongsTo(User, {
-      foreignKey: 'first_user_id'
+      foreignKey: {
+        field: 'first_user_id',
+        name: 'firstUserId'
+      }
     });
 
     Conversation.belongsTo(User, {
-      foreignKey: 'second_user_id'
+      foreignKey: {
+        field: 'second_user_id',
+        name: 'secondUserId'
+      }
     });
 
     Conversation.belongsTo(Channel, {
-      foreignKey: 'channel_id'
+      foreignKey: {
+        field: 'channel_id',
+        name: 'channelId'
+      }
     });
   };
 

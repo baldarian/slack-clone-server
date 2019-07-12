@@ -26,10 +26,10 @@ apolloServer.applyMiddleware({ app, path: '/' });
 
 const server = createServer(app);
 
-const force = true;
+const force = false;
 
 models.sequelize.sync({ force }).then(() => {
-  server.listen(8010, () => {
+  server.listen(8011, () => {
     // eslint-disable-next-line
     console.log(`Server is ready`);
 

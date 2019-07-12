@@ -2,6 +2,7 @@ type Team {
   id: ID!
   name: String!
   channels: [Channel!]!
+  members: [User!]!
   isAdmin: Boolean!
 }
 

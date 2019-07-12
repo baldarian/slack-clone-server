@@ -1,3 +1,5 @@
+import models from './';
+
 export default function(sequelize, DataTypes) {
   const Channel = sequelize.define('channel', {
     name: {
@@ -7,6 +9,10 @@ export default function(sequelize, DataTypes) {
       type: DataTypes.BOOLEAN,
       defaultValue: true
     }
+  });
+
+  Channel.afterCreate(async channel => {
+    await models.Conversation.create({ channelId: channel.id });
   });
 
   Channel.associate = ({ Team, User }) => {

@@ -59,6 +59,11 @@ export default {
     channels: (parent, args, { models }) => {
       return models.Channel.findAll({ where: { teamId: parent.id } });
     },
+    members: (parent, args, { models }) => {
+      return models.User.findAll({
+        include: { model: models.Group, through: { attributes: [] } }
+      });
+    },
     isAdmin: async (parent, args, { models, user }) => {
       const { isAdmin } = await models.Member.findOne({
         where: { teamId: parent.id, userId: user.id }

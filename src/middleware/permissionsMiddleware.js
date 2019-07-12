@@ -9,19 +9,6 @@ const isAuthenticated = rule()(async (parent, args, context) => {
   return true;
 });
 
-const isTeamMember = rule()(async (parent, { channelId }, { models, user }) => {
-  const channel = await models.Channel.findOne({ where: { id: channelId } });
-  const member = await models.Member.findOne({
-    where: { teamId: channel.teamId, userId: user.id }
-  });
-
-  if (!member) {
-    throw new ForbiddenError('You are not a team member');
-  }
-
-  return true;
-});
-
 const permissions = shield({
   Query: {
     teams: isAuthenticated,
@@ -35,7 +22,7 @@ const permissions = shield({
     createMessage: isAuthenticated
   },
   Subscription: {
-    messageAdded: and(isAuthenticated, isTeamMember)
+    messageAdded: and(isAuthenticated)
   }
 });
 
