@@ -52,7 +52,7 @@ export default {
 
       await models.Member.create({ userId: userToAdd.id, teamId });
 
-      return true;
+      return userToAdd;
     }
   },
   Team: {

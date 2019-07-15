@@ -12,5 +12,5 @@ type Query {
 
 type Mutation {
   createTeam(name: String!): Team!
-  addTeamMember(email: String!, teamId: ID!): Boolean!
+  addTeamMember(email: String!, teamId: ID!): User!
 }
